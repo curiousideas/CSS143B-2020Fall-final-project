@@ -45,7 +45,7 @@ public class IndexerTest {
                 ),
                 new TestCase(
                         new ArrayList<>(Arrays.asList(
-                                ""
+                                "    "
                         )),
                         new HashMap<>()
                 )
