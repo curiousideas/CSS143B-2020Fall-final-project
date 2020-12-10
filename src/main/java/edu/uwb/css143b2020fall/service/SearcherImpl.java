@@ -28,7 +28,7 @@ public class SearcherImpl implements Searcher {
                 return result;
             }
             List<Integer> list = new ArrayList<>();
-            for (int j = 0; j < 7; j++) {
+            for (int j = 0; j <= 7; j++) {
                 if (!index.get(words[i]).get(j).isEmpty()) {
                     list.add(j);
                 }
@@ -37,10 +37,13 @@ public class SearcherImpl implements Searcher {
                 lists.add(list);
             }
         }
+        System.out.println(lists);
 
         // get common number
         List<Integer> commonIndexes = new ArrayList<>();
-        if (lists.size() == 1) {
+        if (lists.size() == 0) {
+            return result;
+        } else if (lists.size() == 1) {
             commonIndexes = lists.get(0);
             return commonIndexes;
         } else {
@@ -61,69 +64,6 @@ public class SearcherImpl implements Searcher {
         }
 
         // gets location index for each word in doc
-        // seattle hello  CN = 2
-        Map<Integer, List<List<Integer>>> docs = new HashMap<>();
-        for (int i = 0; i < commonIndexes.size(); i++) {
-            List<List<Integer>> locationIndex = new ArrayList<>();
-            for (int j = 0; j < words.length; j++) {
-                locationIndex.add(index.get(words[j]).get(commonIndexes.get(i)));
-            }
-            docs.put(i, locationIndex);
-        }
-        // 2: [[2],[0, 1, 3], [4,5,6]]
-
-        // subtract 1 from all lists except at 0
-        for (int i = 0; i < docs.size(); i++) {
-            for (int j = 0; j < docs.get(i).size(); j++) {
-                for (int k = 0; k < docs.get(i).get(j).size(); k++) {
-                    int val = docs.get(i).get(j).get(k);
-                    docs.get(i).get(j).set(k, (val-j));
-
-                    if (docs.get(i).get(j).get(k) == docs.get(i).get(j + 1).get(k)) {
-
-                    }
-                }
-            }
-            /*
-            for (int j = 0; j < docs.get(i).size() - 1; j++) {
-                for (int k = 0; k < docs.get(i).get(j).size(); k++) {
-                    if (docs.get(i).get(j).get(k) == docs.get(i).get(j + 1).get(k)) {
-
-                    }
-                }
-            }
-
-             */
-        }
-
-        return result;
-    }
-
-    /*public static void main(String[] args) {
-
-        List<List<Integer>> lists = new ArrayList<>();
-        lists.add(new ArrayList<Integer>(Arrays.asList(-1, 3, 5, 11, 100)));
-        lists.add(new ArrayList<Integer>(Arrays.asList(-1, 3, 5, 11)));
-        lists.add(new ArrayList<Integer>(Arrays.asList(-1, 3, 5)));
-        lists.add(new ArrayList<Integer>(Arrays.asList(-1, 3)));
-        lists.add(new ArrayList<Integer>(Arrays.asList(-1, 3)));
-
-
-        List<Integer> commonIndexes = new ArrayList<>();
-        commonIndexes.add(3);
-        commonIndexes.add(4);
-        commonIndexes.add(2);
-
-        String[] words = {"hello", "hi", "and"};
-
-        List<List<String>> lists = new ArrayList<>();
-        lists.add(new ArrayList<String>(Arrays.asList("hello", "hi", "and")));
-        lists.add(new ArrayList<String>(Arrays.asList("hello", "man", "hi", "and")));
-        lists.add(new ArrayList<String>(Arrays.asList("hello", "hi", "and")));
-
-        Map<String, List<List<Integer>>> index = new HashMap<>();
-        index.put("hello", )
-
         Map<Integer, List<List<Integer>>> docs = new HashMap<>();
         for (int i = 0; i < commonIndexes.size(); i++) {
             List<List<Integer>> locationIndex = new ArrayList<>();
@@ -132,6 +72,25 @@ public class SearcherImpl implements Searcher {
             }
             docs.put(commonIndexes.get(i), locationIndex);
         }
+
+        for (Map.Entry<Integer, List<List<Integer>>> entry : docs.entrySet()) {
+            int k = entry.getKey();
+            List<List<Integer>> v = entry.getValue();
+            List<Integer> firstWordIndicies = v.get(0);
+            for (int i = 0; i < firstWordIndicies.size(); i++) {
+                int indexWord = firstWordIndicies.get(i);
+                for (int j = 1; j < v.size(); j++) {
+                    if (v.get(j).contains(indexWord + 1)) {
+                        indexWord += 1;
+                        if (j == v.size() - 1 && !result.contains(k)) {
+                            result.add(k);
+                        }
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+        return result;
     }
-    */
 }
