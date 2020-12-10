@@ -34,6 +34,91 @@ public class IntegrationTest {
         }
     }
 
+    @Test
+    public void myTestIntegration() {
+        List<TestCase> cases = getMyTestCases();
+        for (TestCase testCase : cases) {
+            List<Integer> actual = searcher.search(
+                    testCase.target,
+                    indexer.index(testCase.documents)
+            );
+            assertEquals(testCase.expect, actual);
+        }
+    }
+
+    private List<TestCase> getMyTestCases() {
+        List<String> documents = getMyDocs();
+
+        List<TestCase> testCases = new ArrayList<>(Arrays.asList(
+                new TestCase(
+                        documents,
+                        "                                            ",
+                        Util.emptyResult()
+                ),
+                new TestCase(
+                        documents,
+                        "cheese",
+                        new ArrayList<>(Arrays.asList(0, 3, 5))
+                ),
+                new TestCase(
+                        documents,
+                        "a",
+                        new ArrayList<>(Arrays.asList(1, 2))
+                ),
+                new TestCase(
+                        documents,
+                        "aa",
+                        Util.emptyResult()
+                ),
+                new TestCase(
+                        documents,
+                        " f          ",
+                        new ArrayList<>(Arrays.asList(3))
+                ),
+                new TestCase(
+                        documents,
+                        "dani mango cheese            ",
+                        new ArrayList<>(Arrays.asList(3, 5))
+                ),
+                new TestCase(
+                        documents,
+                        "macbook pro max",
+                        Util.emptyResult()
+                ),
+                new TestCase(
+                        documents,
+                        " coconut ",
+                        Util.emptyResult()
+                ),
+                new TestCase(
+                        documents,
+                        "f f f f f f f f f f f f f",
+                        Util.emptyResult()
+                ),
+                new TestCase(
+                        documents,
+                        "dani mango egg quail bird desk cup water pencil",
+                        Util.emptyResult()
+                )
+
+        ));
+
+        return testCases;
+    }
+
+    public static List<String> getMyDocs() {
+        return new ArrayList<>(
+                Arrays.asList(
+                        "    cheese     ",
+                        "m      m      a",
+                        "mma mm a",
+                        "abcde f dani dani dani dani dani mango dani dani mango chees dani mango dani mango cheese",
+                        "aaaaaaaaaaaaaaaaa",
+                        " n dani mango        cheese    "
+                )
+        );
+    }
+
     private List<TestCase> getTestCase() {
         List<String> documents = Util.getDocumentsForIntTest();
 
