@@ -36,7 +36,6 @@ public class SearcherImpl implements Searcher {
                 lists.add(list);
             }
         }
-        System.out.println(lists);
 
         // get common number
         List<Integer> commonIndexes = new ArrayList<>();

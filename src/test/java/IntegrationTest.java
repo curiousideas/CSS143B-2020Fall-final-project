@@ -58,7 +58,7 @@ public class IntegrationTest {
                 new TestCase(
                         documents,
                         "cheese",
-                        new ArrayList<>(Arrays.asList(0))
+                        new ArrayList<>(Arrays.asList(0, 3, 5))
                 ),
                 new TestCase(
                         documents,
@@ -77,9 +77,30 @@ public class IntegrationTest {
                 ),
                 new TestCase(
                         documents,
-                        " a  a  a   a  a   a  a         a     b                ",
-                        new ArrayList<>(Arrays.asList(1, 2))
+                        "dani mango cheese            ",
+                        new ArrayList<>(Arrays.asList(3, 5))
+                ),
+                new TestCase(
+                        documents,
+                        "macbook pro max",
+                        Util.emptyResult()
+                ),
+                new TestCase(
+                        documents,
+                        " coconut ",
+                        Util.emptyResult()
+                ),
+                new TestCase(
+                        documents,
+                        "f f f f f f f f f f f f f",
+                        Util.emptyResult()
+                ),
+                new TestCase(
+                        documents,
+                        "dani mango egg quail bird desk cup water pencil",
+                        Util.emptyResult()
                 )
+
         ));
 
         return testCases;
@@ -91,8 +112,9 @@ public class IntegrationTest {
                         "    cheese     ",
                         "m      m      a",
                         "mma mm a",
-                        "abcde f ",
-                        "aaaaaaaaaaaaaaaaa"
+                        "abcde f dani dani dani dani dani mango dani dani mango chees dani mango dani mango cheese",
+                        "aaaaaaaaaaaaaaaaa",
+                        " n dani mango        cheese    "
                 )
         );
     }
