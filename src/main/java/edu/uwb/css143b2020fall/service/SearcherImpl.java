@@ -12,7 +12,6 @@ DO NOT CHANGE
 public class SearcherImpl implements Searcher {
     public List<Integer> search(String keyPhrase, Map<String, List<List<Integer>>> index) {
         List<Integer> result = new ArrayList<>();
-
         // Split words by space, then puts in array
         keyPhrase = keyPhrase.trim();
         keyPhrase = keyPhrase.replaceAll("\\s+", " ");
@@ -28,7 +27,7 @@ public class SearcherImpl implements Searcher {
                 return result;
             }
             List<Integer> list = new ArrayList<>();
-            for (int j = 0; j <= 7; j++) {
+            for (int j = 0; j < index.get(words[i]).size(); j++) {
                 if (!index.get(words[i]).get(j).isEmpty()) {
                     list.add(j);
                 }
